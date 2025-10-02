@@ -1,5 +1,4 @@
 name: Build Docker Images
-
 on:
   workflow_dispatch:
     inputs:
@@ -7,15 +6,17 @@ on:
         description: 'Qt version to install'
         required: true
         default: '6.9.3'
-
+      emsdk_version:
+        description: 'Emscripten SDK version'
+        required: true
+        default: '3.1.70'
 permissions:
   contents: read
   packages: write
-  
+ 
 env:
   REGISTRY: ghcr.io
   IMAGE_PREFIX: odizinne
-
 jobs:
   build-linux-noqt:
     runs-on: ubuntu-22.04
@@ -30,7 +31,6 @@ jobs:
           cd linux/noqt-ubuntu-22.04
           docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/noqt-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/noqt-ubuntu-22.04:latest
-
   build-linux-latestqt:
     runs-on: ubuntu-22.04
     steps:
@@ -44,7 +44,6 @@ jobs:
           cd linux/latestqt-ubuntu-22.04
           docker build --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-ubuntu-22.04:latest
-
   build-wasm-latestqt:
     runs-on: ubuntu-22.04
     steps:
@@ -56,5 +55,8 @@ jobs:
       - name: Build and push
         run: |
           cd wasm/latestqt-wasm-ubuntu-22.04
-          docker build --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest .
+          docker build \
+            --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} \
+            --build-arg EMSDK_VERSION=${{ github.event.inputs.emsdk_version || '3.1.70' }} \
+            -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest

@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
-
 ARG QT_VERSION=6.9.3
+ARG EMSDK_VERSION=3.1.70
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -30,9 +30,19 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN pip install aqtinstall
 
-RUN aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
+# Install Emscripten
+RUN git clone https://github.com/emscripten-core/emsdk.git /opt/emsdk && \
+    cd /opt/emsdk && \
+    ./emsdk install ${EMSDK_VERSION} && \
+    ./emsdk activate ${EMSDK_VERSION}
 
-RUN aqt install-qt all_os wasm ${QT_VERSION} wasm_singlethread -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
+# Set Emscripten environment variables
+ENV EMSDK=/opt/emsdk
+ENV PATH="${EMSDK}:${EMSDK}/upstream/emscripten:${PATH}"
+
+# Install Qt to /opt/Qt
+RUN aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -O /opt/Qt -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
+RUN aqt install-qt all_os wasm ${QT_VERSION} wasm_singlethread -O /opt/Qt -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
 
 # Set Qt environment variables
 ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"

@@ -30,7 +30,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN pip install aqtinstall
 
-RUN aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
+RUN aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -O /opt/Qt -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
 
 ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"
 ENV QT_PLUGIN_PATH="/opt/Qt/${QT_VERSION}/gcc_64/plugins"

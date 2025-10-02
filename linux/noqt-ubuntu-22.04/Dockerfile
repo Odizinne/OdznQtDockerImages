@@ -10,6 +10,7 @@ RUN apt-get update && \
     python3-pip \
     python3-dev \
     sudo \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 # Create symlinks for python and pip (optional, but convenient)
 RUN ln -s /usr/bin/python3 /usr/bin/python

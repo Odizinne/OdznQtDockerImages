@@ -14,6 +14,7 @@ RUN apt-get update && \
     python3-pip \
     python3-dev \
     sudo \
+    unzip \
     libgl1-mesa-dev \
     libxkbcommon-x11-0 \
     libxcb-icccm4 \

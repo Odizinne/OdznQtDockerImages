@@ -23,6 +23,7 @@ RUN apt-get update && \
     libxcb-xfixes0 \
     libglib2.0-0 \
     locales \
+    rsync \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 

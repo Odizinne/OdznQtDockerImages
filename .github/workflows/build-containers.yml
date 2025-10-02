@@ -12,7 +12,7 @@ on:
         default: '3.1.70'
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ${{ github.repository_owner }}
+  IMAGE_PREFIX: odizinne
 jobs:
   build-linux-noqt:
     runs-on: ubuntu-22.04
@@ -63,8 +63,8 @@ jobs:
           docker build \
             --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} \
             --build-arg EMSDK_VERSION=${{ github.event.inputs.emsdk_version || '3.1.70' }} \
-            -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest .
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest
+            -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-wasm-ubuntu-22.04:latest .
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-wasm-ubuntu-22.04:latest
   build-windows-latestqt:
     runs-on: windows-2022
     permissions:

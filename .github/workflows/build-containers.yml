@@ -7,13 +7,6 @@ on:
         description: 'Qt version to install'
         required: true
         default: '6.9.3'
-  push:
-    branches:
-      - main
-    paths:
-      - 'linux/latestqt-ubuntu-22.04/**'
-      - 'linux/noqt-ubuntu-22.04/**'
-      - 'wasm/latestqt-ubuntu-22.04/**'
 
 env:
   REGISTRY: ghcr.io

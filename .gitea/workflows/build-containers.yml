@@ -10,47 +10,47 @@ on:
         description: 'Emscripten SDK version'
         required: true
         default: '3.1.70'
-permissions:
-  contents: read
-  packages: write
- 
+
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: git.odizinne.com
   IMAGE_PREFIX: odizinne
+
 jobs:
   build-linux-noqt:
-    runs-on: ubuntu-22.04
+    runs-on: linux
     steps:
       - uses: actions/checkout@v4
      
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to Gitea Container Registry
+        run: echo "${{ secrets.PKG_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
      
       - name: Build and push
         run: |
           cd linux/noqt-ubuntu-22.04
           docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/noqt-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/noqt-ubuntu-22.04:latest
+
   build-linux-latestqt:
-    runs-on: ubuntu-22.04
+    runs-on: linux
     steps:
       - uses: actions/checkout@v4
      
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to Gitea Container Registry
+        run: echo "${{ secrets.PKG_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
      
       - name: Build and push
         run: |
           cd linux/latestqt-ubuntu-22.04
           docker build --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-ubuntu-22.04:latest
+
   build-wasm-latestqt:
-    runs-on: ubuntu-22.04
+    runs-on: linux
     steps:
       - uses: actions/checkout@v4
      
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to Gitea Container Registry
+        run: echo "${{ secrets.PKG_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
      
       - name: Build and push
         run: |
@@ -60,18 +60,19 @@ jobs:
             --build-arg EMSDK_VERSION=${{ github.event.inputs.emsdk_version || '3.1.70' }} \
             -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/wasm-ubuntu-22.04:latest
+
   build-windows-latestqt:
-    runs-on: windows-2022
+    runs-on: windows
     steps:
       - uses: actions/checkout@v4
      
-      - name: Login to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        shell: bash
+      - name: Login to Gitea Container Registry
+        run: echo "${{ secrets.PKG_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+        shell: pwsh
      
       - name: Build and push
         run: |
           cd windows/latestqt-windows-2022
           docker build --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-windows-2022:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-windows-2022:latest
-        shell: bash
+        shell: pwsh

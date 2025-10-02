@@ -8,19 +8,23 @@ on:
         required: true
         default: '6.9.3'
 
+permissions:
+  contents: read
+  packages: write
+  
 env:
   REGISTRY: ghcr.io
   IMAGE_PREFIX: odizinne
 
 jobs:
   build-linux-noqt:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+     
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      
+     
       - name: Build and push
         run: |
           cd linux/noqt-ubuntu-22.04
@@ -28,13 +32,13 @@ jobs:
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/noqt-ubuntu-22.04:latest
 
   build-linux-latestqt:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+     
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      
+     
       - name: Build and push
         run: |
           cd linux/latestqt-ubuntu-22.04
@@ -42,13 +46,13 @@ jobs:
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/latestqt-ubuntu-22.04:latest
 
   build-wasm-latestqt:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+     
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      
+     
       - name: Build and push
         run: |
           cd wasm/latestqt-wasm-ubuntu-22.04

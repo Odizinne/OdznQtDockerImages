@@ -1,9 +1,6 @@
 FROM ubuntu:22.04
-
 ARG QT_VERSION=6.9.3
-
 ENV DEBIAN_FRONTEND=noninteractive
-
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -25,7 +22,12 @@ RUN apt-get update && \
     libxcb-xinerama0 \
     libxcb-xfixes0 \
     libglib2.0-0 \
+    locales \
+    && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
+
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 

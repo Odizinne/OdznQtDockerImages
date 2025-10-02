@@ -25,8 +25,15 @@ RUN apt-get update && \
     libglib2.0-0 \
     locales \
     rsync \
+    curl \
+    openssh-client \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 22 from NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8

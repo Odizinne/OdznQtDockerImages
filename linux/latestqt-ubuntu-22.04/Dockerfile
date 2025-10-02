@@ -1,11 +1,14 @@
 FROM ubuntu:22.04
 
+ARG QT_VERSION=6.9.3
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
     cmake \
+    ninja-build \
     git \
     python3 \
     python3-pip \
@@ -24,15 +27,12 @@ RUN apt-get update && \
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Install aqt
 RUN pip install aqtinstall
 
-# Install Qt 6.9.3 with modules
-RUN aqt install-qt linux desktop 6.9.3 linux_gcc_64 -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
+RUN aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 -m qt5compat qthttpserver qtimageformats qtmultimedia qtshadertools qtwebsockets
 
-# Set Qt environment variables
-ENV PATH="/opt/Qt/6.9.3/gcc_64/bin:${PATH}"
-ENV QT_PLUGIN_PATH="/opt/Qt/6.9.3/gcc_64/plugins"
-ENV QML_IMPORT_PATH="/opt/Qt/6.9.3/gcc_64/qml"
+ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"
+ENV QT_PLUGIN_PATH="/opt/Qt/${QT_VERSION}/gcc_64/plugins"
+ENV QML_IMPORT_PATH="/opt/Qt/${QT_VERSION}/gcc_64/qml"
 
 WORKDIR /workspace

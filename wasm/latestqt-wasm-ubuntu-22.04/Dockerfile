@@ -24,6 +24,7 @@ RUN apt-get update && \
     libxcb-render-util0 \
     libxcb-xinerama0 \
     libxcb-xfixes0 \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/python3 /usr/bin/python

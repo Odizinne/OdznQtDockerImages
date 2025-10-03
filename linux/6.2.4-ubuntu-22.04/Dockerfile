@@ -12,6 +12,7 @@ RUN apt-get update && \
     python3-dev \
     sudo \
     unzip \
+    zip \
     libgl1-mesa-dev \
     libxkbcommon-x11-0 \
     libxcb-icccm4 \
@@ -22,29 +23,23 @@ RUN apt-get update && \
     libxcb-xinerama0 \
     libxcb-xfixes0 \
     libglib2.0-0 \
+    libdbus-1-3 \
     locales \
     rsync \
     curl \
     openssh-client \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
-
 # Install Node.js 22 from NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
-
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
-
 RUN ln -s /usr/bin/python3 /usr/bin/python
-
 RUN pip install aqtinstall
-
-RUN aqt install-qt linux desktop ${QT_VERSION} gcc_64 -O /opt/Qt 
-
+RUN aqt install-qt linux desktop ${QT_VERSION} gcc_64 -O /opt/Qt
 ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"
 ENV QT_PLUGIN_PATH="/opt/Qt/${QT_VERSION}/gcc_64/plugins"
 ENV QML_IMPORT_PATH="/opt/Qt/${QT_VERSION}/gcc_64/qml"
-
 WORKDIR /workspace

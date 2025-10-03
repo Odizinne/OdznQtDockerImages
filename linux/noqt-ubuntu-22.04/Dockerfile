@@ -13,6 +13,7 @@ RUN apt-get update && \
     python3-dev \
     sudo \
     unzip \
+    zip \
     libglib2.0-0 \
     locales \
     rsync \

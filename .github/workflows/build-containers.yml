@@ -60,7 +60,7 @@ jobs:
       - name: Build and push
         run: |
           cd linux/latestqt-ubuntu-22.04
-          docker build --build-arg QT_VERSION=${{ github.event.inputs.qt_version || '6.9.3' }} -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/6.2.4-ubuntu-22.04:latest .
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/6.2.4-ubuntu-22.04:latest .
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/6.2.4-ubuntu-22.04:latest
   build-wasm-latestqt:
     runs-on: ubuntu-22.04

@@ -1,5 +1,6 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
+ARG QT_VERSION=6.2.4
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
@@ -40,7 +41,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN pip install aqtinstall
 
-RUN aqt install-qt linux desktop 6.2.4 linux_gcc_64 -O /opt/Qt -m qt5compat qtimageformats qtmultimedia qtshadertools qtwebsockets
+RUN aqt install-qt linux desktop ${QT_VERSION} gcc_64 -O /opt/Qt 
 
 ENV PATH="/opt/Qt/${QT_VERSION}/gcc_64/bin:${PATH}"
 ENV QT_PLUGIN_PATH="/opt/Qt/${QT_VERSION}/gcc_64/plugins"

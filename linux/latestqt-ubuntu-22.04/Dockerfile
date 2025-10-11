@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-ARG QT_VERSION=6.9.3
+ARG QT_VERSION=6.10.0
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y \
@@ -11,6 +11,7 @@ RUN apt-get update && \
     python3-pip \
     python3-dev \
     sudo \
+    patchelf \
     unzip \
     zip \
     libgl1-mesa-dev \
